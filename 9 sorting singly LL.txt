@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+struct node
+{
+    int data;
+    struct node *next;
+};struct node *prev, *head, *p;
+void display(struct node *d);
+void sort();
+void main()
+{
+    int n, i, pos;
+    clrscr();
+    printf("Number of elements: ");
+    scanf("%d", &n);
+    head = NULL;
+    printf("Enter %d numbers: \n", n);
+    for (i = 0; i < n; i++)
+    {
+        p = (struct node *)malloc(sizeof(struct node));
+        scanf("%d", &p->data);
+        p->next = NULL;
+        if (head == NULL)
+        {
+            head = p;
+            prev = head;
+        }
+        else
+        {
+            prev->next = p;
+            prev = p;
+        }
+    }
+    printf("The linked list is:\n ");
+    display(head);
+    sort();
+    printf("The sorted list is:\n ");
+    display(head);
+    getch();
+}  
+void sort()
+{
+	struct node*prev=head,*index=NULL;
+	int temp;
+	while(prev!=NULL)
+	{
+		index=prev->next;
+		while(index!=NULL)
+		{
+			if(prev->data>index->data)
+			{
+				temp=prev->data;
+				prev->data=index->data;
+				index->data=temp;
+			}
+			index=index->next;
+		}
+		prev=prev->next;
+	}
+}
+void display(struct node *d)
+{
+    if (d == NULL)
+        printf("Null\n");
+    else
+    {
+        printf("%d->", d->data);
+        display(d->next);
+    }
+}

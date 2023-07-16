@@ -1,0 +1,107 @@
+include <stdio.h>
+#include <stdlib.h>
+#include<conio.h>
+struct NODE
+{
+	int data;
+	struct NODE* left;
+	struct NODE* right;
+	struct NODE* root;
+};
+
+typedef struct NODE node;
+
+node* insertion(node* New, int item)
+{
+	if (New == NULL)
+	{
+		New = (node*)malloc(sizeof(node));
+		New->left = New->right = NULL;
+		New->data = item;
+	}
+	else if (item < New->data)
+		New->left = insertion(New->left, item);
+	else
+		New->right = insertion(New->right, item);
+	return New;
+}
+
+void display(node* New)
+{
+	if (New != NULL)
+	{
+		display(New->left);
+		printf("%d\t", New->data);
+		display(New->right);
+	}
+}
+
+void search(node* New, int item)
+{
+	if (New == NULL)
+	{
+		printf("\n Item not found \n");
+		return;
+	}
+	else if (item == New->data)
+	{
+		printf("\nItem found\n");
+		display(New->root);
+	}
+	else if (item < New->data)
+		search(New->left, item);
+	else if (item > New->data)
+		search(New->right, item);
+}
+
+int main(void)
+{
+	node* root = NULL;
+	int ch1, num;
+	clrscr();
+
+	printf("Binary search tree operations\n");
+	do
+	{
+		printf("\nMENU \n1.Insertion \n2.Search \n3.Display \n4.Exit");
+		printf("\nEnter choice:");
+		scanf("%d", &ch1);
+		switch (ch1)
+		{
+			case 1:
+				printf("Enter item:");
+				scanf("%d", &num);
+				root = insertion(root, num);
+				printf("Tree:\n");
+				display(root);
+				break;
+			case 2:
+				if (root == NULL)
+				{
+					printf("Empty tree\n");
+					break;
+				}
+				else
+				{
+					printf("Enter the value:");
+					scanf("%d", &num);
+					search(root, num);
+				}
+				break;
+			case 3:
+				if (root == NULL)
+				{
+					printf("Empty tree\n");
+					break;
+				}
+				display(root);
+				break;
+			case 4:
+			    exit(0);
+			    default:printf("invalid choice");
+			    break;
+		}
+	} while (ch1 != 4);
+	getch();
+	return 0;
+}
